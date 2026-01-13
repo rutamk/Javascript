@@ -1,4 +1,9 @@
 // Currying
+
+// Currying in JavaScript is a functional programming technique 
+// where a function that takes multiple arguments is transformed into a sequence of functions,
+// each taking one argument at a time.
+
 // Q1: Write a function which helps to achieve multiply(a)(b) and returns
 // multiplication of a and b
 
@@ -33,3 +38,15 @@ const curry = function(fn) {
 const curriedSum = curry((a, b, c) => a + b + c); 
 const partiallyCurriedSum = curriedSum(1); 
 console.log(partiallyCurriedSum(2, 3)); // 6
+
+// ✅ Real-World Example
+// Imagine you have a function to format currency:
+
+function formatCurrency(currency) {
+  return function(amount) {
+    return `${currency} ${amount}`;
+  };
+}
+
+const formatUSD = formatCurrency('$');
+console.log(formatUSD(100)); // $ 100
