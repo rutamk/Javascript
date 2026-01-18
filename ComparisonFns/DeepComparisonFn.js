@@ -1,7 +1,7 @@
 const typeOf = (input) =>
   Object.prototype.toString.call(input).slice(8, -1).toLowerCase();
 
-const shallowCompare = (source, target) => {
+const deepCompare = (source, target) => {
     if (source === null || target === null) {
         return source === target;
     }
@@ -11,13 +11,13 @@ const shallowCompare = (source, target) => {
 
     if (type === "array") {
         return source.length === target.length &&
-               source.every((el, i) => el === target[i]);
+               source.every((el, index) => deepCompare(el, target[index]));
     }
 
     if (type === "object") {
         const keys = Object.keys(source);
         return keys.length === Object.keys(target).length &&
-               keys.every(key => source[key] === target[key]);
+               keys.every(key => deepCompare(source[key], target[key]));
     }
 
     if (type === "date") {
@@ -27,7 +27,8 @@ const shallowCompare = (source, target) => {
     return source === target;
 };
 
-console.log(shallowCompare(1,1),
-shallowCompare([1],[1]),
-shallowCompare({a:1},{a:1}));
+console.log(deepCompare(1,1),
+deepCompare([1],[1]),
+deepCompare({a: {b: 1}},{a:{b: 1}}),
+deepCompare({a: {b: 1}},{a:{b: 2}}));
 
